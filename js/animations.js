@@ -426,7 +426,9 @@ function initAnimations() {
     }
 
     function initPageTransitions() {
-        
+        // Disable on desktop
+        if (window.innerWidth > 768) return;
+
         if (!document.querySelector('.page-transition')) {
             const transitionEl = document.createElement('div');
             transitionEl.className = 'page-transition';
