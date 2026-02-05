@@ -1,0 +1,19 @@
+{
+    "name": "Lino Maini ",
+    "short_name": "Lino Maini",
+    "description": "Front-end developer building high-performance web experiences with clean code and interactive animations.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#0066FF",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "img/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "categories": ["portfolio", "web development"],
+    "lang": "en"
+}
