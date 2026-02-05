@@ -1,86 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Story - Lino Maini</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any" />
-    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Lino Maini | Front-end Developer</title>
+    <meta name="description" content="Learn about Lino Maini, a 17-year-old front-end developer passionate about building fast, accessible, and beautiful web experiences.">
+    <meta name="keywords" content="about Lino Maini, front-end developer, web developer, JavaScript developer">
+    <meta name="author" content="Lino Maini">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#000000">
 
-    <script>
-        (function() {
-            try {
-                var t = localStorage.getItem('theme');
-                if (!t) {
-                    t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-                if (t === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
-            } catch (e) {}
-        })();
+    <link rel="canonical" href="https://linomaini.com/my-story.html">
+
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Kanit:wght@600;700;800&family=Sora:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="css/style.css" as="style">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Lino Maini",
+        "url": "https://linomaini.com",
+        "jobTitle": "Front-end Developer",
+        "description": "A 17-year-old front-end developer passionate about building fast, accessible, and beautiful web experiences.",
+        "sameAs": [
+            "https://github.com/LinoMaini",
+            "https://linkedin.com/in/parmalinomaini2008"
+        ],
+        "knowsAbout": ["JavaScript", "React", "GSAP", "HTML", "CSS", "Web Development", "Python"]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "About - Lino Maini",
+        "description": "Learn about Lino Maini, a front-end developer passionate about building fast, accessible web experiences.",
+        "url": "https://linomaini.com/my-story.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Lino Maini Portfolio",
+            "url": "https://linomaini.com"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://linomaini.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "About",
+                "item": "https://linomaini.com/my-story.html"
+            }
+        ]
+    }
     </script>
 </head>
-
-<body>
-    <nav class="navbar sticky-top site-header px-3 px-lg-5 py-2">
-        <div class="container-fluid d-flex align-items-center justify-content-between">
-            <a class="navbar-brand fs-2 text-decoration-none brand-link" href="index.html">lino.</a>
-            <div class="d-flex align-items-center gap-4">
-                <div class="social-links">
-                    <a href="https://github.com/LinoMaini" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://instagram.com/mainilino" title="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/parmalinomaini2008/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" title="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </div>
-                <button data-theme-toggle class="btn btn-outline-light" aria-pressed="false" aria-label="Toggle dark theme" onclick="toggleTheme()">
-                    <span id="themeIcon" class="theme-icon">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" width="24" height="24" fill="currentColor">
-                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                        </svg>
-                    </span>
-                </button>
-            </div>
+<body class="page-home">
+    
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <span class="preloader-text">LINO MAINI</span>
+            <div class="preloader-bar"></div>
         </div>
-    </nav>
+    </div>
 
-    <main class="container py-5">
-        <section class="hero">
-            <div class="story-section">
-                <h2>Nice to meet you, I'm Lino.</h2>
-                <p>I believe the future is written in code.</p>
-                <p>From my first Python and JavaScript scripts I learned that building interfaces is the fastest way to give ideas a shape. Every project is a chance to learn: performance work, responsive layouts, and the small UI details that make the difference.</p>
-                <p>My approach is simple: <strong>Never Give Up</strong>. If a solution doesn't show up right away, I change angle, experiment, and optimize. I've spent nights fixing tricky mobile layouts until every component felt fluid and readable.</p>
-                <p>I treat mistakes as part of the work and turn bugs into lessons. At 17 I want to grow as a front-end developer, work on real products, and keep building clear, fast, and accessible digital experiences.</p>
-            </div>
+    <div class="scroll-progress" id="scrollProgress"></div>
 
-            <div class="cta-group mt-4">
-                <a class="btn-custom btn-accent d-flex align-items-center justify-content-center" href="portfolio-carousel.html">
-                    <i class="bi bi-sliders fs-4"></i>
-                    <span class="d-none d-md-inline">View Projects Carousel</span>
-                </a>
+    <header class="site-header site-header--minimal" id="siteHeader">
+        <a href="index.html" class="header-home" aria-label="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        <div class="header-actions">
+            <a href="https://github.com/LinoMaini" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/parmalinomaini2008" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="story-section" style="text-align: left; padding-top: 180px;">
+            <h1 style="font-size: clamp(36px, 8vw, 60px); line-height: 1; margin-bottom: 50px;">
+                Hi! I'm Lino.
+            </h1>
+            <p>I'm an 18-year-old from Italy with a passion for technology and a drive to keep learning. Over the years, I've worked in different fields — both in the digital world and face-to-face with people — which taught me how to adapt, communicate, and solve problems on the go.</p>
+            <p>Right now I'm studying Computer Science, and what excites me most is <strong>building websites and apps</strong>. I haven't developed a full app yet, but I'm eager to get there. Every project is a step forward.</p>
+            <p>I'm a strong believer in the potential of <strong>Artificial Intelligence</strong>. I earned a certificate in AI Prompt Engineering from Udemy, and I'm always exploring how AI can enhance the way we work and create.</p>
+            <p>My philosophy is simple: I don't measure myself by results alone. If I don't achieve the best outcome, I see it as a signal to push harder and improve. I'm ready to learn, grow, and give my best in everything I do.</p>
+
+            <div class="cta-group" style="justify-content: flex-start; margin-top: 40px;">
+                <a href="projects.html" class="btn btn-primary">VIEW MY WORK</a>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer text-center py-4">
-        <p class="mb-0">&copy; 2025 Lino Maini. All rights reserved.</p>
+    <footer class="site-footer">
+        <div class="container">
+            <p class="footer-copyright">&copy; 2026 Lino Maini</p>
+        </div>
     </footer>
 
-    <script src="theme.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <nav class="mobile-nav">
+        <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i></a>
+        <a href="projects.html" class="mobile-nav-item"><i class="fas fa-rocket"></i></a>
+        <a href="my-story.html" class="mobile-nav-item active"><i class="fas fa-user"></i></a>
+        <button class="mobile-nav-item theme-toggle-mobile" id="themeToggleMobile" aria-label="Toggle theme">
+            <i class="fas fa-adjust"></i>
+        </button>
+    </nav>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/TextPlugin.min.js" defer></script>
+    <script src="js/animations.js" defer></script>
 </body>
 </html>
