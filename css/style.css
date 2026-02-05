@@ -210,22 +210,6 @@ h1, h2, h3, h4 {
     justify-content: space-between;
     align-items: center;
     padding: 24px 32px;
-    position: relative; /* Ensure absolute child centers relative to this */
-}
-
-.header-nav {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-@media (max-width: 768px) {
-    .header-nav {
-        display: none;
-    }
 }
 
 .header-home {
