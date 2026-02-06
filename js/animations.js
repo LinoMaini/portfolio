@@ -93,6 +93,7 @@ function initAnimations() {
         const heroName = document.querySelector('.hero-name');
         if (!heroName) return;
 
+        const words = heroName.querySelectorAll('.word');
         const originalText = heroName.getAttribute('data-text') || heroName.textContent;
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         let interval;
@@ -101,27 +102,51 @@ function initAnimations() {
             let iteration = 0;
             clearInterval(interval);
 
-            interval = setInterval(() => {
-                heroName.textContent = originalText
-                    .split('')
-                    .map((letter, index) => {
-                        if (index < iteration) {
-                            return originalText[index];
-                        }
-                        if (letter === ' ') return ' ';
-                        return chars[Math.floor(Math.random() * chars.length)];
-                    })
-                    .join('');
+            if (words.length > 0) {
+                const wordTexts = Array.from(words).map(w => w.textContent);
+                interval = setInterval(() => {
+                    words.forEach((word, wordIndex) => {
+                        const origWord = wordTexts[wordIndex];
+                        word.textContent = origWord
+                            .split('')
+                            .map((letter, index) => {
+                                const globalIndex = wordTexts.slice(0, wordIndex).join('').length + index;
+                                if (globalIndex < iteration) {
+                                    return origWord[index];
+                                }
+                                return chars[Math.floor(Math.random() * chars.length)];
+                            })
+                            .join('');
+                    });
 
-                if (iteration >= originalText.length) {
-                    clearInterval(interval);
-                }
+                    if (iteration >= originalText.replace(' ', '').length) {
+                        clearInterval(interval);
+                        words.forEach((word, i) => word.textContent = wordTexts[i]);
+                    }
 
-                iteration += 1 / 3;
-            }, 40);
+                    iteration += 1 / 3;
+                }, 40);
+            } else {
+                interval = setInterval(() => {
+                    heroName.textContent = originalText
+                        .split('')
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return originalText[index];
+                            }
+                            if (letter === ' ') return ' ';
+                            return chars[Math.floor(Math.random() * chars.length)];
+                        })
+                        .join('');
+
+                    if (iteration >= originalText.length) {
+                        clearInterval(interval);
+                    }
+
+                    iteration += 1 / 3;
+                }, 40);
+            }
         }
-
-        heroName.addEventListener('mouseenter', runScramble);
 
         setTimeout(runScramble, 1300);
     }
@@ -131,7 +156,6 @@ function initAnimations() {
         document.documentElement.setAttribute('data-theme', savedTheme);
 
         const themeToggle = document.getElementById('themeToggle');
-        const themeToggleMobile = document.getElementById('themeToggleMobile');
 
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -141,7 +165,6 @@ function initAnimations() {
         }
 
         if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-        if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
     }
 
     function initPreloader() {
@@ -425,49 +448,6 @@ function initAnimations() {
         });
     }
 
-    function initPageTransitions() {
-        // Disable on desktop
-        if (window.innerWidth > 768) return;
-
-        if (!document.querySelector('.page-transition')) {
-            const transitionEl = document.createElement('div');
-            transitionEl.className = 'page-transition';
-            document.body.appendChild(transitionEl);
-        }
-
-        const transition = document.querySelector('.page-transition');
-        const links = document.querySelectorAll('a:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"])');
-
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href && href !== '#' && !href.startsWith('javascript:')) {
-                    e.preventDefault();
-
-                    gsap.to(transition, {
-                        scaleY: 1,
-                        transformOrigin: 'bottom',
-                        duration: 0.4,
-                        ease: 'power3.inOut',
-                        onComplete: () => {
-                            window.location.href = href;
-                        }
-                    });
-                }
-            });
-        });
-
-        window.addEventListener('pageshow', () => {
-            gsap.to(transition, {
-                scaleY: 0,
-                transformOrigin: 'top',
-                duration: 0.4,
-                ease: 'power3.inOut',
-                delay: 0.05
-            });
-        });
-    }
-
     function init() {
         
         initTheme();
@@ -478,7 +458,6 @@ function initAnimations() {
         initTiltCards();
         initScrollAnimations();
         initSmoothScroll();
-        initPageTransitions();
 
         initHeroNameScramble();
         initKonamiCode();
