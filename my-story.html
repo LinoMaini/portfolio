@@ -87,6 +87,17 @@
     <div class="scroll-progress" id="scrollProgress"></div>
 
     <header class="site-header site-header--minimal" id="siteHeader">
+        <a href="index.html" class="header-home" aria-label="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        <div class="header-actions">
+            <a href="https://github.com/LinoMaini" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/parmalinomaini2008" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
     </header>
 
     <main class="container">
@@ -95,13 +106,10 @@
                 Hi! I'm Lino.
             </h1>
             <p>I'm an 18-year-old from Italy with a passion for technology and a drive to keep learning. Over the years, I've worked in different fields — both in the digital world and face-to-face with people — which taught me how to adapt, communicate, and solve problems on the go.</p>
-            <p>Right now I'm studying Computer Science, and what excites me most is <strong>building websites and apps</strong>. I haven't developed a full app yet, but I'm eager to get there. Every project is a step forward.</p>
+            <p>Right now I'm studying Computer Science, and what excites me most is <a href="projects.html" class="inline-link">building websites and apps</a>. I haven't developed a full app yet, but I'm eager to get there. Every project is a step forward.</p>
             <p>I'm a strong believer in the potential of <strong>Artificial Intelligence</strong>. I earned a certificate in AI Prompt Engineering from Udemy, and I'm always exploring how AI can enhance the way we work and create.</p>
             <p>My philosophy is simple: I don't measure myself by results alone. If I don't achieve the best outcome, I see it as a signal to push harder and improve. I'm ready to learn, grow, and give my best in everything I do.</p>
 
-            <div class="cta-group" style="justify-content: flex-start; margin-top: 40px;">
-                <a href="projects.html" class="btn btn-primary">VIEW MY WORK</a>
-            </div>
         </section>
     </main>
 
@@ -114,15 +122,6 @@
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <nav class="mobile-nav">
-        <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i></a>
-        <a href="projects.html" class="mobile-nav-item"><i class="fas fa-rocket"></i></a>
-        <a href="my-story.html" class="mobile-nav-item active"><i class="fas fa-user"></i></a>
-        <button class="mobile-nav-item theme-toggle-mobile" id="themeToggleMobile" aria-label="Toggle theme">
-            <i class="fas fa-adjust"></i>
-        </button>
-    </nav>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js" defer></script>
