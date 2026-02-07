@@ -1,0 +1,2894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random - Lino Maini | Playground</title>
+    <meta name="description" content="An interactive playground of experiments, mini-games, and creative tools by Lino Maini.">
+    <meta name="author" content="Lino Maini">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="canonical" href="https://linomaini.com/random.html">
+
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Kanit:wght@600;700;800&family=Sora:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="css/style.css" as="style">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        
+        .random-page-content {
+            padding-top: 120px;
+            padding-bottom: 80px;
+        }
+
+        .random-hero {
+            text-align: center;
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .random-hero h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .random-hero p {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .random-section {
+            margin-bottom: 100px;
+        }
+
+        .random-section-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .random-section-sub {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        .random-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: border-color 0.3s ease;
+        }
+
+        .random-card:hover {
+            border-color: var(--text-tertiary);
+        }
+
+        .random-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 44px;
+            padding: 0 24px;
+            border-radius: 100px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .random-btn:hover {
+            border-color: var(--text-primary);
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .random-btn--small {
+            height: 36px;
+            padding: 0 16px;
+            font-size: 11px;
+        }
+
+        .random-btn--active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+        }
+
+        .random-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .random-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .random-grid-2,
+            .random-grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        
+        .quote-display {
+            font-size: clamp(20px, 3vw, 28px);
+            font-family: 'Sora', sans-serif;
+            font-weight: 500;
+            line-height: 1.5;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 16px;
+            transition: opacity 0.4s ease;
+        }
+
+        .quote-author {
+            color: var(--text-tertiary);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 32px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .quote-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        
+        .palette-row {
+            display: flex;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            height: 120px;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+
+        .palette-swatch {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            transition: flex 0.3s ease;
+            position: relative;
+        }
+
+        .palette-swatch:hover {
+            flex: 1.5;
+        }
+
+        .palette-swatch .copied-toast {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .palette-swatch .copied-toast.show {
+            opacity: 1;
+        }
+
+        
+        .reaction-zone {
+            height: 280px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.15s ease;
+            font-family: 'Sora', sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reaction-zone--waiting {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .reaction-zone--ready {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .reaction-zone--result {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+        }
+
+        .reaction-zone--idle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+        }
+
+        .reaction-zone--early {
+            background: #e67e22;
+            color: white;
+        }
+
+        .reaction-time-value {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 800;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .reaction-time-unit {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .reaction-history {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .reaction-history span {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Sora', sans-serif;
+        }
+
+        
+        .typing-prompt {
+            font-size: 20px;
+            line-height: 1.8;
+            font-family: 'Sora', sans-serif;
+            font-weight: 400;
+            margin-bottom: 24px;
+            padding: 24px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            letter-spacing: 0.01em;
+        }
+
+        .typing-prompt .char-correct {
+            color: #2ecc71;
+        }
+
+        .typing-prompt .char-wrong {
+            color: #e74c3c;
+            text-decoration: underline;
+        }
+
+        .typing-prompt .char-current {
+            background: rgba(var(--accent-rgb), 0.3);
+            border-radius: 2px;
+        }
+
+        .typing-prompt .char-pending {
+            color: var(--text-tertiary);
+        }
+
+        .typing-input {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            font-size: 18px;
+            font-family: 'Sora', sans-serif;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .typing-input:focus {
+            border-color: var(--text-secondary);
+        }
+
+        .typing-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .typing-stat {
+            text-align: center;
+        }
+
+        .typing-stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            font-family: 'Kanit', sans-serif;
+            display: block;
+        }
+
+        .typing-stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        
+        .pixel-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .pixel-color {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pixel-color:hover,
+        .pixel-color.active {
+            transform: scale(1.2);
+            border-color: var(--text-primary);
+        }
+
+        .pixel-grid {
+            display: grid;
+            gap: 1px;
+            background: var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 100%;
+            aspect-ratio: 1;
+            user-select: none;
+        }
+
+        .pixel-cell {
+            background: var(--bg-secondary);
+            aspect-ratio: 1;
+            cursor: crosshair;
+            transition: background-color 0.05s ease;
+        }
+
+        .pixel-cell:hover {
+            opacity: 0.8;
+        }
+
+        
+        .matrix-container {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 300px;
+        }
+
+        #matrixCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #000;
+            border-radius: var(--radius);
+        }
+
+        .matrix-overlay {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        
+        .cube-scene {
+            width: 200px;
+            height: 200px;
+            perspective: 600px;
+            margin: 0 auto 24px;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.05s linear;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Kanit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: rgba(var(--accent-rgb), 0.08);
+            backdrop-filter: blur(4px);
+            color: var(--text-primary);
+        }
+
+        .cube-face--front  { transform: rotateY(0deg) translateZ(100px); }
+        .cube-face--back   { transform: rotateY(180deg) translateZ(100px); }
+        .cube-face--right  { transform: rotateY(90deg) translateZ(100px); }
+        .cube-face--left   { transform: rotateY(-90deg) translateZ(100px); }
+        .cube-face--top    { transform: rotateX(90deg) translateZ(100px); }
+        .cube-face--bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        .cube-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        
+        .clock-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .clock-face {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 3px solid var(--border);
+            position: relative;
+            background: var(--bg-secondary);
+        }
+
+        .clock-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .clock-hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 4px;
+        }
+
+        .clock-hand--hour {
+            width: 4px;
+            height: 60px;
+            background: var(--text-primary);
+            margin-left: -2px;
+        }
+
+        .clock-hand--minute {
+            width: 3px;
+            height: 80px;
+            background: var(--text-secondary);
+            margin-left: -1.5px;
+        }
+
+        .clock-hand--second {
+            width: 1.5px;
+            height: 90px;
+            background: #e74c3c;
+            margin-left: -0.75px;
+        }
+
+        .clock-tick {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: var(--text-tertiary);
+            top: 8px;
+            left: 50%;
+            margin-left: -1px;
+            transform-origin: center 112px;
+        }
+
+        .clock-tick--major {
+            height: 16px;
+            width: 3px;
+            margin-left: -1.5px;
+            background: var(--text-secondary);
+        }
+
+        .clock-number {
+            position: absolute;
+            font-family: 'Sora', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .digital-time {
+            font-family: 'Sora', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+        }
+
+        .digital-date {
+            font-size: 13px;
+            color: var(--text-tertiary);
+            letter-spacing: 0.04em;
+        }
+
+        
+        .gol-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gol-grid {
+            display: grid;
+            gap: 0;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .gol-cell {
+            width: 12px;
+            height: 12px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+        }
+
+        .gol-cell.alive {
+            background: var(--text-primary);
+        }
+
+        .gol-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .gol-gen {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        
+        .gradient-preview {
+            height: 200px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            transition: all 0.5s ease;
+        }
+
+        .gradient-css {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            color: var(--text-secondary);
+            word-break: break-all;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        
+        .gravity-container {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 350px;
+        }
+
+        #gravityCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            cursor: crosshair;
+        }
+
+        .gravity-hint {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: var(--text-tertiary);
+            pointer-events: none;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        
+        .dice-display {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .die {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Kanit', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .die.rolling {
+            animation: diceShake 0.4s ease-in-out;
+        }
+
+        @keyframes diceShake {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            50% { transform: rotate(10deg) scale(0.9); }
+            75% { transform: rotate(-5deg) scale(1.05); }
+        }
+
+        .dice-total {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .dice-total strong {
+            color: var(--text-primary);
+            font-size: 20px;
+        }
+
+        
+        .morse-input {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            font-size: 16px;
+            font-family: 'Sora', sans-serif;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .morse-input:focus {
+            border-color: var(--text-secondary);
+        }
+
+        .morse-output {
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            letter-spacing: 0.15em;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            min-height: 60px;
+            word-break: break-all;
+            line-height: 2;
+        }
+
+        .morse-output .dot {
+            color: #2ecc71;
+        }
+
+        .morse-output .dash {
+            color: #3498db;
+        }
+
+        .morse-output .space {
+            margin: 0 8px;
+        }
+
+        
+        .timer-display {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(48px, 10vw, 80px);
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .timer-presets {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        
+        .fact-card {
+            text-align: center;
+            padding: 48px 32px;
+        }
+
+        .fact-icon {
+            font-size: 48px;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .fact-text {
+            font-size: clamp(18px, 2.5vw, 22px);
+            line-height: 1.7;
+            font-family: 'Sora', sans-serif;
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+
+        .fact-category {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            margin-bottom: 32px;
+        }
+
+        
+        .draw-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .draw-container {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        #drawCanvas {
+            width: 100%;
+            height: 300px;
+            display: block;
+            cursor: crosshair;
+            background: var(--bg-secondary);
+        }
+
+        .brush-size-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 80px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .brush-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .color-input-wrap {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            position: relative;
+        }
+
+        .color-input-wrap input[type="color"] {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+        }
+
+        
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        .counter-item {
+            text-align: center;
+            padding: 32px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .counter-value {
+            font-family: 'Kanit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .counter-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        
+        .sound-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            height: 120px;
+            padding: 20px;
+        }
+
+        .sound-bar {
+            width: 4px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            animation: soundPulse var(--duration) ease-in-out infinite alternate;
+            animation-delay: var(--delay);
+            opacity: 0.6;
+        }
+
+        .sound-bars.paused .sound-bar {
+            animation-play-state: paused;
+        }
+
+        @keyframes soundPulse {
+            0% { height: 8px; opacity: 0.3; }
+            100% { height: var(--max-h); opacity: 0.9; }
+        }
+
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 24px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            perspective: 600px;
+            cursor: pointer;
+        }
+
+        .memory-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .memory-card.flipped .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched .memory-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            opacity: 0.6;
+        }
+
+        .memory-card-front,
+        .memory-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .memory-card-front {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text-tertiary);
+        }
+
+        .memory-card-back {
+            background: var(--bg-secondary);
+            border: 2px solid var(--text-secondary);
+            transform: rotateY(180deg);
+        }
+
+        .memory-stats {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .memory-stats strong {
+            color: var(--text-primary);
+        }
+
+        
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .toast {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 2s forwards;
+            white-space: nowrap;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-10px) scale(0.95); }
+        }
+
+        
+        .progress-rings {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .progress-ring-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-ring-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        .progress-ring-value {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            fill: var(--text-primary);
+        }
+
+        
+        .text-effect-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .text-effect {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            display: inline-block;
+            cursor: default;
+        }
+
+        .text-effect .char {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .text-effect .char:hover {
+            color: #e74c3c;
+            transform: translateY(-8px) rotate(-5deg) scale(1.2);
+        }
+
+        .text-effect-wave .char {
+            animation: wave 2s ease-in-out infinite;
+            animation-delay: var(--i);
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        
+        .marquee {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 40px 0;
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marqueeScroll 30s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+            padding: 0 40px;
+            white-space: nowrap;
+            opacity: 0.3;
+        }
+
+        .marquee-item .separator {
+            margin: 0 20px;
+            opacity: 0.3;
+        }
+
+        @keyframes marqueeScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <span class="preloader-text">LINO MAINI</span>
+            <div class="preloader-bar"></div>
+        </div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <header class="site-header site-header--minimal" id="siteHeader">
+        <a href="index.html" class="header-home" aria-label="Home">
+            <i class="fas fa-home"></i>
+        </a>
+        <div class="header-actions">
+            <a href="https://github.com/LinoMaini" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/parmalinomaini2008" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container random-page-content">
+
+        
+        <section class="random-hero reveal-on-scroll">
+            <canvas id="particleCanvas"></canvas>
+            <h1>The Playground</h1>
+            <p>A collection of experiments, mini-games, and interactive toys. Click things. Break things. Have fun.</p>
+        </section>
+
+        
+        <div class="marquee reveal-on-scroll">
+            <div class="marquee-track">
+                <span class="marquee-item">EXPERIMENTS <span class="separator">/</span></span>
+                <span class="marquee-item">MINI GAMES <span class="separator">/</span></span>
+                <span class="marquee-item">CREATIVE TOOLS <span class="separator">/</span></span>
+                <span class="marquee-item">RANDOM FUN <span class="separator">/</span></span>
+                <span class="marquee-item">INTERACTIVE <span class="separator">/</span></span>
+                <span class="marquee-item">EXPERIMENTS <span class="separator">/</span></span>
+                <span class="marquee-item">MINI GAMES <span class="separator">/</span></span>
+                <span class="marquee-item">CREATIVE TOOLS <span class="separator">/</span></span>
+                <span class="marquee-item">RANDOM FUN <span class="separator">/</span></span>
+                <span class="marquee-item">INTERACTIVE <span class="separator">/</span></span>
+            </div>
+        </div>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Hover Text</h2>
+            <p class="random-section-sub">Hover over each letter. Go ahead, try it.</p>
+            <div class="random-card text-effect-container">
+                <span class="text-effect" id="hoverText">Touch Every Letter</span>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Wave Text</h2>
+            <p class="random-section-sub">An infinite wave animation across characters.</p>
+            <div class="random-card text-effect-container">
+                <span class="text-effect text-effect-wave" id="waveText">Hello World</span>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Random Quotes</h2>
+            <p class="random-section-sub">Wisdom from the greats. Or at least, some of them.</p>
+            <div class="random-card">
+                <div class="quote-display" id="quoteText">"The only way to do great work is to love what you do."</div>
+                <div class="quote-author" id="quoteAuthor">Steve Jobs</div>
+                <div class="quote-actions">
+                    <button class="random-btn" id="newQuoteBtn"><i class="fas fa-shuffle"></i> New Quote</button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Palette Generator</h2>
+            <p class="random-section-sub">Click a swatch to copy its hex code. Press the button for a new palette.</p>
+            <div class="random-card">
+                <div class="palette-row" id="paletteRow"></div>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button class="random-btn" id="newPaletteBtn"><i class="fas fa-palette"></i> Generate</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="random-grid-2">
+
+            
+            <section class="random-section reveal-on-scroll">
+                <h2 class="random-section-title">Reaction Time</h2>
+                <p class="random-section-sub">Test your reflexes. Click when the box turns green.</p>
+                <div class="reaction-zone reaction-zone--idle" id="reactionZone">
+                    <span>Click to start</span>
+                </div>
+                <div class="reaction-history" id="reactionHistory"></div>
+            </section>
+
+            
+            <section class="random-section reveal-on-scroll">
+                <h2 class="random-section-title">Dice Roller</h2>
+                <p class="random-section-sub">Click the dice or hit the button to roll.</p>
+                <div class="random-card" style="text-align: center;">
+                    <div class="dice-display" id="diceDisplay">
+                        <div class="die" data-index="0">1</div>
+                        <div class="die" data-index="1">1</div>
+                    </div>
+                    <div class="dice-total" id="diceTotal">Total: <strong>2</strong></div>
+                    <button class="random-btn" id="rollDiceBtn"><i class="fas fa-dice"></i> Roll</button>
+                </div>
+            </section>
+
+        </div>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Typing Speed</h2>
+            <p class="random-section-sub">Type the text below as fast as you can. Your speed is measured in WPM.</p>
+            <div class="random-card">
+                <div class="typing-prompt" id="typingPrompt"></div>
+                <input type="text" class="typing-input" id="typingInput" placeholder="Start typing here..." autocomplete="off" spellcheck="false">
+                <div class="typing-stats">
+                    <div class="typing-stat">
+                        <span class="typing-stat-value" id="typingWpm">0</span>
+                        <span class="typing-stat-label">WPM</span>
+                    </div>
+                    <div class="typing-stat">
+                        <span class="typing-stat-value" id="typingAccuracy">100%</span>
+                        <span class="typing-stat-label">Accuracy</span>
+                    </div>
+                    <div class="typing-stat">
+                        <span class="typing-stat-value" id="typingTime">0s</span>
+                        <span class="typing-stat-label">Time</span>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="random-btn" id="resetTypingBtn"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Memory Game</h2>
+            <p class="random-section-sub">Find all matching pairs. Fewer moves = better score.</p>
+            <div class="random-card">
+                <div class="memory-grid" id="memoryGrid"></div>
+                <div class="memory-stats" id="memoryStats">
+                    <span>Moves: <strong id="memoryMoves">0</strong></span>
+                    <span>Pairs: <strong id="memoryPairs">0</strong>/8</span>
+                </div>
+                <div style="text-align: center; margin-top: 16px;">
+                    <button class="random-btn" id="resetMemoryBtn"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="random-grid-2">
+
+            
+            <section class="random-section reveal-on-scroll">
+                <h2 class="random-section-title">Analog Clock</h2>
+                <p class="random-section-sub">Your local time, rendered in real time.</p>
+                <div class="random-card">
+                    <div class="clock-container">
+                        <div class="clock-face" id="clockFace">
+                            <div class="clock-center"></div>
+                            <div class="clock-hand clock-hand--hour" id="hourHand"></div>
+                            <div class="clock-hand clock-hand--minute" id="minuteHand"></div>
+                            <div class="clock-hand clock-hand--second" id="secondHand"></div>
+                        </div>
+                        <div class="digital-time" id="digitalTime">00:00:00</div>
+                        <div class="digital-date" id="digitalDate"></div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section class="random-section reveal-on-scroll">
+                <h2 class="random-section-title">Timer</h2>
+                <p class="random-section-sub">A countdown timer with presets.</p>
+                <div class="random-card" style="text-align: center;">
+                    <div class="timer-presets">
+                        <button class="random-btn random-btn--small" data-time="30">30s</button>
+                        <button class="random-btn random-btn--small" data-time="60">1m</button>
+                        <button class="random-btn random-btn--small" data-time="120">2m</button>
+                        <button class="random-btn random-btn--small" data-time="300">5m</button>
+                        <button class="random-btn random-btn--small" data-time="600">10m</button>
+                    </div>
+                    <div class="timer-display" id="timerDisplay">00:00</div>
+                    <div class="timer-controls">
+                        <button class="random-btn" id="timerStartBtn"><i class="fas fa-play"></i> Start</button>
+                        <button class="random-btn" id="timerResetBtn"><i class="fas fa-redo"></i> Reset</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Pixel Art</h2>
+            <p class="random-section-sub">Click and drag to paint on the grid.</p>
+            <div class="random-card">
+                <div class="pixel-toolbar" id="pixelToolbar">
+                    <div class="pixel-color active" style="background: #e74c3c;" data-color="#e74c3c"></div>
+                    <div class="pixel-color" style="background: #e67e22;" data-color="#e67e22"></div>
+                    <div class="pixel-color" style="background: #f1c40f;" data-color="#f1c40f"></div>
+                    <div class="pixel-color" style="background: #2ecc71;" data-color="#2ecc71"></div>
+                    <div class="pixel-color" style="background: #3498db;" data-color="#3498db"></div>
+                    <div class="pixel-color" style="background: #9b59b6;" data-color="#9b59b6"></div>
+                    <div class="pixel-color" style="background: #1abc9c;" data-color="#1abc9c"></div>
+                    <div class="pixel-color" style="background: #ffffff;" data-color="#ffffff"></div>
+                    <div class="pixel-color" style="background: #000000;" data-color="#000000"></div>
+                    <span style="margin-left: auto;"></span>
+                    <button class="random-btn random-btn--small" id="clearPixelBtn"><i class="fas fa-trash"></i> Clear</button>
+                </div>
+                <div class="pixel-grid" id="pixelGrid" style="grid-template-columns: repeat(24, 1fr);"></div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Free Draw</h2>
+            <p class="random-section-sub">A simple freehand drawing canvas.</p>
+            <div class="random-card">
+                <div class="draw-toolbar">
+                    <div class="color-input-wrap">
+                        <input type="color" id="drawColor" value="#ffffff">
+                    </div>
+                    <input type="range" class="brush-size-slider" id="brushSize" min="1" max="30" value="4">
+                    <button class="random-btn random-btn--small" id="clearDrawBtn"><i class="fas fa-trash"></i> Clear</button>
+                    <button class="random-btn random-btn--small" id="downloadDrawBtn"><i class="fas fa-download"></i> Save</button>
+                </div>
+                <div class="draw-container">
+                    <canvas id="drawCanvas"></canvas>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Gradient Generator</h2>
+            <p class="random-section-sub">Generate beautiful gradients. Click copy to grab the CSS.</p>
+            <div class="random-card">
+                <div class="gradient-preview" id="gradientPreview"></div>
+                <div class="gradient-css" id="gradientCss"></div>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button class="random-btn" id="newGradientBtn"><i class="fas fa-shuffle"></i> Generate</button>
+                    <button class="random-btn" id="copyGradientBtn"><i class="fas fa-copy"></i> Copy CSS</button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Morse Code</h2>
+            <p class="random-section-sub">Type text and see it translated to Morse code in real time.</p>
+            <div class="random-card">
+                <input type="text" class="morse-input" id="morseInput" placeholder="Type something..." maxlength="100">
+                <div class="morse-output" id="morseOutput">...</div>
+            </div>
+        </section>
+
+        <div class="random-grid-2">
+
+            
+            <section class="random-section reveal-on-scroll">
+                <h2 class="random-section-title">Matrix Rain</h2>
+                <p class="random-section-sub">The iconic falling code effect.</p>
+                <div class="matrix-container">
+                    <canvas id="matrixCanvas"></canvas>
+                    <div class="matrix-overlay">
+                        <button class="random-btn random-btn--small" id="matrixToggle"><i class="fas fa-pause"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section class="random-section reveal-on-scroll">
+                <h2 class="random-section-title">3D Cube</h2>
+                <p class="random-section-sub">Drag to rotate. Or use auto-spin.</p>
+                <div class="random-card" style="text-align: center;">
+                    <div class="cube-scene" id="cubeScene">
+                        <div class="cube" id="cube3d">
+                            <div class="cube-face cube-face--front">FRONT</div>
+                            <div class="cube-face cube-face--back">BACK</div>
+                            <div class="cube-face cube-face--right">RIGHT</div>
+                            <div class="cube-face cube-face--left">LEFT</div>
+                            <div class="cube-face cube-face--top">TOP</div>
+                            <div class="cube-face cube-face--bottom">BTM</div>
+                        </div>
+                    </div>
+                    <div class="cube-controls">
+                        <button class="random-btn random-btn--small" id="cubeAutoSpin"><i class="fas fa-sync"></i> Auto Spin</button>
+                        <button class="random-btn random-btn--small" id="cubeReset"><i class="fas fa-redo"></i> Reset</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Game of Life</h2>
+            <p class="random-section-sub">Conway's classic cellular automaton. Click cells to toggle them, then press play.</p>
+            <div class="random-card">
+                <div class="gol-container">
+                    <div class="gol-controls">
+                        <button class="random-btn random-btn--small" id="golPlayBtn"><i class="fas fa-play"></i> Play</button>
+                        <button class="random-btn random-btn--small" id="golStepBtn"><i class="fas fa-forward-step"></i> Step</button>
+                        <button class="random-btn random-btn--small" id="golRandomBtn"><i class="fas fa-shuffle"></i> Random</button>
+                        <button class="random-btn random-btn--small" id="golClearBtn"><i class="fas fa-trash"></i> Clear</button>
+                    </div>
+                    <div class="gol-grid" id="golGrid"></div>
+                    <div class="gol-gen">Generation: <span id="golGen">0</span></div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Gravity Balls</h2>
+            <p class="random-section-sub">Click anywhere to spawn bouncing balls with realistic physics.</p>
+            <div class="random-card" style="padding: 0; overflow: hidden; border-radius: var(--radius);">
+                <div class="gravity-container">
+                    <canvas id="gravityCanvas"></canvas>
+                    <span class="gravity-hint">Click to add balls</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 12px;">
+                <button class="random-btn random-btn--small" id="clearGravityBtn"><i class="fas fa-trash"></i> Clear</button>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Sound Bars</h2>
+            <p class="random-section-sub">Pure CSS animation. No audio — just vibes.</p>
+            <div class="random-card">
+                <div class="sound-bars" id="soundBars"></div>
+                <div style="text-align: center;">
+                    <button class="random-btn random-btn--small" id="toggleSoundBars"><i class="fas fa-pause"></i> Pause</button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Progress Rings</h2>
+            <p class="random-section-sub">Animated SVG progress indicators.</p>
+            <div class="random-card">
+                <div class="progress-rings" id="progressRings"></div>
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="random-btn random-btn--small" id="randomizeRingsBtn"><i class="fas fa-shuffle"></i> Randomize</button>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Counting Up</h2>
+            <p class="random-section-sub">Numbers that animate when scrolled into view.</p>
+            <div class="counter-grid" id="counterGrid">
+                <div class="counter-item">
+                    <span class="counter-value" data-target="1337">0</span>
+                    <span class="counter-label">Lines of CSS</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="42">0</span>
+                    <span class="counter-label">Cups of Coffee</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="256">0</span>
+                    <span class="counter-label">Commits</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="99">0</span>
+                    <span class="counter-label">Bugs Fixed</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="7">0</span>
+                    <span class="counter-label">Projects</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" data-target="3650">0</span>
+                    <span class="counter-label">Hours Coding</span>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="random-section reveal-on-scroll">
+            <h2 class="random-section-title">Random Facts</h2>
+            <p class="random-section-sub">Useless but fascinating knowledge.</p>
+            <div class="random-card fact-card">
+                <span class="fact-icon" id="factIcon">🐙</span>
+                <div class="fact-category" id="factCategory">NATURE</div>
+                <div class="fact-text" id="factText">An octopus has three hearts, nine brains, and blue blood.</div>
+                <button class="random-btn" id="newFactBtn"><i class="fas fa-shuffle"></i> New Fact</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p class="footer-copyright">&copy; 2026 Lino Maini</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/TextPlugin.min.js" defer></script>
+    <script src="js/animations.js" defer></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        
+        function showToast(msg) {
+            const c = document.getElementById('toastContainer');
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = msg;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 2500);
+        }
+
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+
+        
+        (function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animFrame;
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+            }
+
+            function createParticle() {
+                return {
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    r: Math.random() * 2 + 0.5,
+                    opacity: Math.random() * 0.5 + 0.2
+                };
+            }
+
+            function init() {
+                resize();
+                particles = [];
+                const count = Math.min(80, Math.floor(canvas.width * canvas.height / 8000));
+                for (let i = 0; i < count; i++) particles.push(createParticle());
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const isDark = !document.documentElement.getAttribute('data-theme') || document.documentElement.getAttribute('data-theme') === 'dark';
+                const color = isDark ? '255,255,255' : '0,0,0';
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${color}, ${p.opacity})`;
+                    ctx.fill();
+                });
+
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(${color}, ${0.08 * (1 - dist / 120)})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                animFrame = requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', init);
+            init();
+            draw();
+        })();
+
+        
+        (function initHoverText() {
+            const el = document.getElementById('hoverText');
+            if (!el) return;
+            const text = el.textContent;
+            el.innerHTML = '';
+            text.split('').forEach((ch, i) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = ch === ' ' ? '\u00A0' : ch;
+                el.appendChild(span);
+            });
+        })();
+
+        
+        (function initWaveText() {
+            const el = document.getElementById('waveText');
+            if (!el) return;
+            const text = el.textContent;
+            el.innerHTML = '';
+            text.split('').forEach((ch, i) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.style.setProperty('--i', (i * 0.08) + 's');
+                span.textContent = ch === ' ' ? '\u00A0' : ch;
+                el.appendChild(span);
+            });
+        })();
+
+        
+        (function initQuotes() {
+            const quotes = [
+                { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+                { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
+                { text: "Simplicity is the soul of efficiency.", author: "Austin Freeman" },
+                { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+                { text: "Make it work, make it right, make it fast.", author: "Kent Beck" },
+                { text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.", author: "Martin Fowler" },
+                { text: "The best error message is the one that never shows up.", author: "Thomas Fuchs" },
+                { text: "Programming isn't about what you know; it's about what you can figure out.", author: "Chris Pine" },
+                { text: "The most disastrous thing that you can ever learn is your first programming language.", author: "Alan Kay" },
+                { text: "Talk is cheap. Show me the code.", author: "Linus Torvalds" },
+                { text: "Truth can only be found in one place: the code.", author: "Robert C. Martin" },
+                { text: "Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday's code.", author: "Dan Salomon" },
+                { text: "It's not a bug. It's an undocumented feature.", author: "Anonymous" },
+                { text: "In order to be irreplaceable, one must always be different.", author: "Coco Chanel" },
+                { text: "Java is to JavaScript what car is to carpet.", author: "Chris Heilmann" },
+                { text: "Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.", author: "Antoine de Saint-Exupery" },
+                { text: "The function of good software is to make the complex appear to be simple.", author: "Grady Booch" },
+                { text: "Before software can be reusable it first has to be usable.", author: "Ralph Johnson" },
+                { text: "Knowledge is power.", author: "Francis Bacon" },
+                { text: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight.", author: "Bill Gates" }
+            ];
+            let lastIndex = -1;
+
+            const textEl = document.getElementById('quoteText');
+            const authorEl = document.getElementById('quoteAuthor');
+            const btn = document.getElementById('newQuoteBtn');
+
+            function show() {
+                let idx;
+                do { idx = Math.floor(Math.random() * quotes.length); } while (idx === lastIndex);
+                lastIndex = idx;
+                textEl.style.opacity = '0';
+                setTimeout(() => {
+                    textEl.textContent = `"${quotes[idx].text}"`;
+                    authorEl.textContent = quotes[idx].author;
+                    textEl.style.opacity = '1';
+                }, 300);
+            }
+
+            btn.addEventListener('click', show);
+        })();
+
+        
+        (function initPalette() {
+            const row = document.getElementById('paletteRow');
+            const btn = document.getElementById('newPaletteBtn');
+
+            function hslToHex(h, s, l) {
+                l /= 100;
+                const a = s * Math.min(l, 1 - l) / 100;
+                const f = n => {
+                    const k = (n + h / 30) % 12;
+                    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                    return Math.round(255 * color).toString(16).padStart(2, '0');
+                };
+                return `#${f(0)}${f(8)}${f(4)}`;
+            }
+
+            function generate() {
+                row.innerHTML = '';
+                const baseHue = Math.random() * 360;
+                for (let i = 0; i < 5; i++) {
+                    const hue = (baseHue + i * (360 / 5) + (Math.random() * 30 - 15)) % 360;
+                    const sat = 50 + Math.random() * 40;
+                    const light = 35 + Math.random() * 35;
+                    const hex = hslToHex(hue, sat, light);
+
+                    const swatch = document.createElement('div');
+                    swatch.className = 'palette-swatch';
+                    swatch.style.background = hex;
+                    swatch.innerHTML = `<span>${hex.toUpperCase()}</span><span class="copied-toast">Copied!</span>`;
+                    swatch.addEventListener('click', () => {
+                        navigator.clipboard.writeText(hex.toUpperCase()).then(() => {
+                            const toast = swatch.querySelector('.copied-toast');
+                            toast.classList.add('show');
+                            setTimeout(() => toast.classList.remove('show'), 1200);
+                            showToast(`Copied ${hex.toUpperCase()}`);
+                        });
+                    });
+                    row.appendChild(swatch);
+                }
+            }
+
+            btn.addEventListener('click', generate);
+            generate();
+        })();
+
+        
+        (function initReaction() {
+            const zone = document.getElementById('reactionZone');
+            const history = document.getElementById('reactionHistory');
+            let state = 'idle';
+            let timeout;
+            let startTime;
+            const times = [];
+
+            zone.addEventListener('click', () => {
+                if (state === 'idle' || state === 'result' || state === 'early') {
+                    state = 'waiting';
+                    zone.className = 'reaction-zone reaction-zone--waiting';
+                    zone.innerHTML = '<span>Wait for green...</span>';
+                    const delay = 1000 + Math.random() * 4000;
+                    timeout = setTimeout(() => {
+                        state = 'ready';
+                        zone.className = 'reaction-zone reaction-zone--ready';
+                        zone.innerHTML = '<span>CLICK NOW!</span>';
+                        startTime = performance.now();
+                    }, delay);
+                } else if (state === 'waiting') {
+                    clearTimeout(timeout);
+                    state = 'early';
+                    zone.className = 'reaction-zone reaction-zone--early';
+                    zone.innerHTML = '<span>Too early! Click to retry.</span>';
+                } else if (state === 'ready') {
+                    const elapsed = Math.round(performance.now() - startTime);
+                    state = 'result';
+                    zone.className = 'reaction-zone reaction-zone--result';
+                    zone.innerHTML = `<span class="reaction-time-value">${elapsed}</span><span class="reaction-time-unit">milliseconds</span><span style="margin-top:12px;font-size:14px;color:var(--text-tertiary);">Click to try again</span>`;
+                    times.push(elapsed);
+                    if (times.length > 5) times.shift();
+                    history.innerHTML = '';
+                    times.forEach(t => {
+                        const s = document.createElement('span');
+                        s.textContent = t + 'ms';
+                        history.appendChild(s);
+                    });
+                }
+            });
+        })();
+
+        
+        (function initDice() {
+            const display = document.getElementById('diceDisplay');
+            const totalEl = document.getElementById('diceTotal');
+            const btn = document.getElementById('rollDiceBtn');
+            const dice = display.querySelectorAll('.die');
+
+            function roll() {
+                let total = 0;
+                dice.forEach(die => {
+                    die.classList.add('rolling');
+                    const val = Math.floor(Math.random() * 6) + 1;
+                    total += val;
+                    setTimeout(() => {
+                        die.textContent = val;
+                        die.classList.remove('rolling');
+                    }, 400);
+                });
+                setTimeout(() => {
+                    totalEl.innerHTML = `Total: <strong>${total}</strong>`;
+                }, 400);
+            }
+
+            btn.addEventListener('click', roll);
+            dice.forEach(die => die.addEventListener('click', roll));
+        })();
+
+        
+        (function initTyping() {
+            const sentences = [
+                "The quick brown fox jumps over the lazy dog near the river bank.",
+                "A journey of a thousand miles begins with a single step forward.",
+                "Every great developer was once a beginner who never gave up.",
+                "Clean code always looks like it was written by someone who cares.",
+                "In the middle of difficulty lies opportunity waiting to be found.",
+                "The best time to plant a tree was twenty years ago or right now.",
+                "Creativity is intelligence having fun with bold new ideas.",
+                "Success is not final and failure is not fatal keep going.",
+                "Programs must be written for people to read and only incidentally for machines.",
+                "Simplicity is prerequisite for reliability in all engineering."
+            ];
+
+            const promptEl = document.getElementById('typingPrompt');
+            const inputEl = document.getElementById('typingInput');
+            const wpmEl = document.getElementById('typingWpm');
+            const accEl = document.getElementById('typingAccuracy');
+            const timeEl = document.getElementById('typingTime');
+            const resetBtn = document.getElementById('resetTypingBtn');
+
+            let currentSentence = '';
+            let startTime = null;
+            let timerInterval = null;
+
+            function setNewSentence() {
+                currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+                renderPrompt('');
+                inputEl.value = '';
+                startTime = null;
+                wpmEl.textContent = '0';
+                accEl.textContent = '100%';
+                timeEl.textContent = '0s';
+                if (timerInterval) clearInterval(timerInterval);
+            }
+
+            function renderPrompt(typed) {
+                let html = '';
+                for (let i = 0; i < currentSentence.length; i++) {
+                    if (i < typed.length) {
+                        if (typed[i] === currentSentence[i]) {
+                            html += `<span class="char-correct">${currentSentence[i]}</span>`;
+                        } else {
+                            html += `<span class="char-wrong">${currentSentence[i]}</span>`;
+                        }
+                    } else if (i === typed.length) {
+                        html += `<span class="char-current">${currentSentence[i]}</span>`;
+                    } else {
+                        html += `<span class="char-pending">${currentSentence[i]}</span>`;
+                    }
+                }
+                promptEl.innerHTML = html;
+            }
+
+            inputEl.addEventListener('input', () => {
+                const typed = inputEl.value;
+                if (!startTime && typed.length > 0) {
+                    startTime = Date.now();
+                    timerInterval = setInterval(() => {
+                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+                        timeEl.textContent = elapsed + 's';
+                    }, 100);
+                }
+
+                renderPrompt(typed);
+
+
+                let correct = 0;
+                for (let i = 0; i < typed.length; i++) {
+                    if (typed[i] === currentSentence[i]) correct++;
+                }
+                const accuracy = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 100;
+                accEl.textContent = accuracy + '%';
+
+
+                if (startTime) {
+                    const elapsed = (Date.now() - startTime) / 1000 / 60;
+                    const words = correct / 5;
+                    const wpm = elapsed > 0 ? Math.round(words / elapsed) : 0;
+                    wpmEl.textContent = wpm;
+                }
+
+
+                if (typed.length >= currentSentence.length) {
+                    clearInterval(timerInterval);
+                    inputEl.disabled = true;
+                    showToast(`Done! ${wpmEl.textContent} WPM at ${accuracy}% accuracy`);
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                inputEl.disabled = false;
+                inputEl.focus();
+                setNewSentence();
+            });
+
+            setNewSentence();
+        })();
+
+        
+        (function initMemory() {
+            const grid = document.getElementById('memoryGrid');
+            const movesEl = document.getElementById('memoryMoves');
+            const pairsEl = document.getElementById('memoryPairs');
+            const resetBtn = document.getElementById('resetMemoryBtn');
+            const emojis = ['🚀', '🎮', '🎨', '🔥', '💎', '🌊', '⚡', '🎵'];
+            let cards = [];
+            let flipped = [];
+            let matched = 0;
+            let moves = 0;
+            let locked = false;
+
+            function shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function createBoard() {
+                grid.innerHTML = '';
+                cards = shuffle([...emojis, ...emojis]);
+                matched = 0;
+                moves = 0;
+                flipped = [];
+                locked = false;
+                movesEl.textContent = '0';
+                pairsEl.textContent = '0';
+
+                cards.forEach((emoji, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.emoji = emoji;
+                    card.dataset.index = i;
+                    card.innerHTML = `
+                        <div class="memory-card-inner">
+                            <div class="memory-card-front"><i class="fas fa-question"></i></div>
+                            <div class="memory-card-back">${emoji}</div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => flipCard(card));
+                    grid.appendChild(card);
+                });
+            }
+
+            function flipCard(card) {
+                if (locked) return;
+                if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+                if (flipped.length >= 2) return;
+
+                card.classList.add('flipped');
+                flipped.push(card);
+
+                if (flipped.length === 2) {
+                    moves++;
+                    movesEl.textContent = moves;
+                    locked = true;
+
+                    if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
+                        flipped[0].classList.add('matched');
+                        flipped[1].classList.add('matched');
+                        matched++;
+                        pairsEl.textContent = matched;
+                        flipped = [];
+                        locked = false;
+
+                        if (matched === emojis.length) {
+                            showToast(`You won in ${moves} moves!`);
+                        }
+                    } else {
+                        setTimeout(() => {
+                            flipped[0].classList.remove('flipped');
+                            flipped[1].classList.remove('flipped');
+                            flipped = [];
+                            locked = false;
+                        }, 800);
+                    }
+                }
+            }
+
+            resetBtn.addEventListener('click', createBoard);
+            createBoard();
+        })();
+
+        
+        (function initClock() {
+            const face = document.getElementById('clockFace');
+            const hourHand = document.getElementById('hourHand');
+            const minuteHand = document.getElementById('minuteHand');
+            const secondHand = document.getElementById('secondHand');
+            const digitalTime = document.getElementById('digitalTime');
+            const digitalDate = document.getElementById('digitalDate');
+
+
+            for (let i = 0; i < 60; i++) {
+                const tick = document.createElement('div');
+                tick.className = i % 5 === 0 ? 'clock-tick clock-tick--major' : 'clock-tick';
+                tick.style.transform = `rotate(${i * 6}deg)`;
+                tick.style.transformOrigin = 'center 112px';
+                face.appendChild(tick);
+            }
+
+
+            const numbers = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+            const radius = 88;
+            numbers.forEach((num, i) => {
+                const angle = (i * 30 - 90) * (Math.PI / 180);
+                const x = 120 + radius * Math.cos(angle) - 15;
+                const y = 120 + radius * Math.sin(angle) - 15;
+                const numEl = document.createElement('div');
+                numEl.className = 'clock-number';
+                numEl.textContent = num;
+                numEl.style.left = x + 'px';
+                numEl.style.top = y + 'px';
+                face.appendChild(numEl);
+            });
+
+            function updateClock() {
+                const now = new Date();
+                const h = now.getHours() % 12;
+                const m = now.getMinutes();
+                const s = now.getSeconds();
+                const ms = now.getMilliseconds();
+
+                const secDeg = (s + ms / 1000) * 6;
+                const minDeg = (m + s / 60) * 6;
+                const hourDeg = (h + m / 60) * 30;
+
+                secondHand.style.transform = `rotate(${secDeg}deg)`;
+                minuteHand.style.transform = `rotate(${minDeg}deg)`;
+                hourHand.style.transform = `rotate(${hourDeg}deg)`;
+
+                digitalTime.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+                digitalDate.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+                requestAnimationFrame(updateClock);
+            }
+
+            updateClock();
+        })();
+
+        
+        (function initTimer() {
+            const display = document.getElementById('timerDisplay');
+            const startBtn = document.getElementById('timerStartBtn');
+            const resetBtn = document.getElementById('timerResetBtn');
+            const presets = document.querySelectorAll('[data-time]');
+            let totalSeconds = 60;
+            let remaining = 60;
+            let interval = null;
+            let running = false;
+
+            function formatTime(s) {
+                const m = Math.floor(s / 60);
+                const sec = s % 60;
+                return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+            }
+
+            function render() {
+                display.textContent = formatTime(remaining);
+            }
+
+            presets.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (interval) clearInterval(interval);
+                    running = false;
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+                    totalSeconds = parseInt(btn.dataset.time);
+                    remaining = totalSeconds;
+                    render();
+                });
+            });
+
+            startBtn.addEventListener('click', () => {
+                if (running) {
+                    clearInterval(interval);
+                    running = false;
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+                } else {
+                    if (remaining <= 0) {
+                        remaining = totalSeconds;
+                    }
+                    running = true;
+                    startBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                    interval = setInterval(() => {
+                        remaining--;
+                        render();
+                        if (remaining <= 0) {
+                            clearInterval(interval);
+                            running = false;
+                            startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+                            showToast('Timer finished!');
+                        }
+                    }, 1000);
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                running = false;
+                remaining = totalSeconds;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+                render();
+            });
+
+            render();
+        })();
+
+        
+        (function initPixelArt() {
+            const grid = document.getElementById('pixelGrid');
+            const toolbar = document.getElementById('pixelToolbar');
+            const clearBtn = document.getElementById('clearPixelBtn');
+            let currentColor = '#e74c3c';
+            let isDrawing = false;
+            const SIZE = 24;
+
+
+            for (let i = 0; i < SIZE * SIZE; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'pixel-cell';
+                cell.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    isDrawing = true;
+                    cell.style.background = currentColor;
+                });
+                cell.addEventListener('mouseenter', () => {
+                    if (isDrawing) cell.style.background = currentColor;
+                });
+                cell.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    cell.style.background = currentColor;
+                });
+                grid.appendChild(cell);
+            }
+
+            document.addEventListener('mouseup', () => isDrawing = false);
+
+
+            toolbar.querySelectorAll('.pixel-color').forEach(swatch => {
+                swatch.addEventListener('click', () => {
+                    toolbar.querySelectorAll('.pixel-color').forEach(s => s.classList.remove('active'));
+                    swatch.classList.add('active');
+                    currentColor = swatch.dataset.color;
+                });
+            });
+
+            clearBtn.addEventListener('click', () => {
+                grid.querySelectorAll('.pixel-cell').forEach(cell => {
+                    cell.style.background = '';
+                });
+            });
+        })();
+
+        
+        (function initDraw() {
+            const canvas = document.getElementById('drawCanvas');
+            const ctx = canvas.getContext('2d');
+            const colorInput = document.getElementById('drawColor');
+            const sizeInput = document.getElementById('brushSize');
+            const clearBtn = document.getElementById('clearDrawBtn');
+            const downloadBtn = document.getElementById('downloadDrawBtn');
+            let drawing = false;
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                canvas.width = rect.width;
+                canvas.height = 300;
+                ctx.putImageData(imageData, 0, 0);
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: (clientX - rect.left) * (canvas.width / rect.width),
+                    y: (clientY - rect.top) * (canvas.height / rect.height)
+                };
+            }
+
+            function startDraw(e) {
+                e.preventDefault();
+                drawing = true;
+                const pos = getPos(e);
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+            }
+
+            function draw(e) {
+                if (!drawing) return;
+                e.preventDefault();
+                const pos = getPos(e);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.strokeStyle = colorInput.value;
+                ctx.lineWidth = sizeInput.value;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+            }
+
+            function endDraw() {
+                drawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('mouseleave', endDraw);
+            canvas.addEventListener('touchstart', startDraw);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', endDraw);
+
+            clearBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                const link = document.createElement('a');
+                link.download = 'drawing.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                showToast('Drawing saved!');
+            });
+        })();
+
+        
+        (function initGradient() {
+            const preview = document.getElementById('gradientPreview');
+            const cssEl = document.getElementById('gradientCss');
+            const genBtn = document.getElementById('newGradientBtn');
+            const copyBtn = document.getElementById('copyGradientBtn');
+            let currentCSS = '';
+
+            function randomHex() {
+                return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            }
+
+            function generate() {
+                const angle = Math.floor(Math.random() * 360);
+                const stops = 2 + Math.floor(Math.random() * 2);
+                const colors = [];
+                for (let i = 0; i < stops; i++) colors.push(randomHex());
+                currentCSS = `linear-gradient(${angle}deg, ${colors.join(', ')})`;
+                preview.style.background = currentCSS;
+                cssEl.textContent = `background: ${currentCSS};`;
+            }
+
+            genBtn.addEventListener('click', generate);
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(`background: ${currentCSS};`).then(() => showToast('CSS copied!'));
+            });
+
+            generate();
+        })();
+
+        
+        (function initMorse() {
+            const input = document.getElementById('morseInput');
+            const output = document.getElementById('morseOutput');
+
+            const morseMap = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+                '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+                '8': '---..', '9': '----.', ' ': ' '
+            };
+
+            input.addEventListener('input', () => {
+                const text = input.value.toUpperCase();
+                let html = '';
+                for (const ch of text) {
+                    if (ch === ' ') {
+                        html += '<span class="space"> / </span>';
+                    } else if (morseMap[ch]) {
+                        const morse = morseMap[ch];
+                        for (const m of morse) {
+                            if (m === '.') html += '<span class="dot">.</span>';
+                            else html += '<span class="dash">-</span>';
+                        }
+                        html += ' ';
+                    }
+                }
+                output.innerHTML = html || '...';
+            });
+        })();
+
+        
+        (function initMatrix() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            const toggleBtn = document.getElementById('matrixToggle');
+            let running = true;
+            let columns, drops;
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                const fontSize = 14;
+                columns = Math.floor(canvas.width / fontSize);
+                drops = new Array(columns).fill(1);
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()アイウエオカキクケコサシスセソ';
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#0F0';
+                ctx.font = '14px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const ch = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillStyle = `hsl(120, 100%, ${40 + Math.random() * 30}%)`;
+                    ctx.fillText(ch, i * 14, drops[i] * 14);
+
+                    if (drops[i] * 14 > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            let matrixInterval = setInterval(draw, 35);
+
+            toggleBtn.addEventListener('click', () => {
+                if (running) {
+                    clearInterval(matrixInterval);
+                    toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    matrixInterval = setInterval(draw, 35);
+                    toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                running = !running;
+            });
+        })();
+
+        
+        (function initCube() {
+            const cube = document.getElementById('cube3d');
+            const scene = document.getElementById('cubeScene');
+            const autoBtn = document.getElementById('cubeAutoSpin');
+            const resetBtn = document.getElementById('cubeReset');
+            let rotX = -20, rotY = 30;
+            let dragging = false;
+            let lastX, lastY;
+            let autoSpin = false;
+            let spinFrame;
+
+            function render() {
+                cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            }
+
+            scene.addEventListener('mousedown', (e) => {
+                dragging = true;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                if (autoSpin) {
+                    autoSpin = false;
+                    cancelAnimationFrame(spinFrame);
+                    autoBtn.classList.remove('random-btn--active');
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!dragging) return;
+                rotY += (e.clientX - lastX) * 0.5;
+                rotX -= (e.clientY - lastY) * 0.5;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                render();
+            });
+
+            document.addEventListener('mouseup', () => dragging = false);
+
+
+            scene.addEventListener('touchstart', (e) => {
+                dragging = true;
+                lastX = e.touches[0].clientX;
+                lastY = e.touches[0].clientY;
+            });
+
+            scene.addEventListener('touchmove', (e) => {
+                if (!dragging) return;
+                e.preventDefault();
+                rotY += (e.touches[0].clientX - lastX) * 0.5;
+                rotX -= (e.touches[0].clientY - lastY) * 0.5;
+                lastX = e.touches[0].clientX;
+                lastY = e.touches[0].clientY;
+                render();
+            });
+
+            scene.addEventListener('touchend', () => dragging = false);
+
+            function spin() {
+                if (!autoSpin) return;
+                rotY += 0.5;
+                rotX += 0.2;
+                render();
+                spinFrame = requestAnimationFrame(spin);
+            }
+
+            autoBtn.addEventListener('click', () => {
+                autoSpin = !autoSpin;
+                autoBtn.classList.toggle('random-btn--active');
+                if (autoSpin) spin();
+            });
+
+            resetBtn.addEventListener('click', () => {
+                rotX = -20;
+                rotY = 30;
+                render();
+            });
+
+            render();
+        })();
+
+        
+        (function initGameOfLife() {
+            const gridEl = document.getElementById('golGrid');
+            const genEl = document.getElementById('golGen');
+            const playBtn = document.getElementById('golPlayBtn');
+            const stepBtn = document.getElementById('golStepBtn');
+            const randomBtn = document.getElementById('golRandomBtn');
+            const clearBtn = document.getElementById('golClearBtn');
+
+            const COLS = 40;
+            const ROWS = 30;
+            let grid = [];
+            let generation = 0;
+            let interval = null;
+            let playing = false;
+
+            gridEl.style.gridTemplateColumns = `repeat(${COLS}, 12px)`;
+
+            function createGrid() {
+                gridEl.innerHTML = '';
+                grid = [];
+                for (let r = 0; r < ROWS; r++) {
+                    grid[r] = [];
+                    for (let c = 0; c < COLS; c++) {
+                        grid[r][c] = 0;
+                        const cell = document.createElement('div');
+                        cell.className = 'gol-cell';
+                        cell.dataset.row = r;
+                        cell.dataset.col = c;
+                        cell.addEventListener('click', () => {
+                            grid[r][c] = grid[r][c] ? 0 : 1;
+                            cell.classList.toggle('alive');
+                        });
+                        gridEl.appendChild(cell);
+                    }
+                }
+                generation = 0;
+                genEl.textContent = '0';
+            }
+
+            function renderGrid() {
+                const cells = gridEl.querySelectorAll('.gol-cell');
+                cells.forEach(cell => {
+                    const r = parseInt(cell.dataset.row);
+                    const c = parseInt(cell.dataset.col);
+                    cell.classList.toggle('alive', grid[r][c] === 1);
+                });
+                genEl.textContent = generation;
+            }
+
+            function countNeighbors(r, c) {
+                let count = 0;
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        if (dr === 0 && dc === 0) continue;
+                        const nr = (r + dr + ROWS) % ROWS;
+                        const nc = (c + dc + COLS) % COLS;
+                        count += grid[nr][nc];
+                    }
+                }
+                return count;
+            }
+
+            function step() {
+                const newGrid = grid.map(row => [...row]);
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        const n = countNeighbors(r, c);
+                        if (grid[r][c]) {
+                            newGrid[r][c] = (n === 2 || n === 3) ? 1 : 0;
+                        } else {
+                            newGrid[r][c] = n === 3 ? 1 : 0;
+                        }
+                    }
+                }
+                grid = newGrid;
+                generation++;
+                renderGrid();
+            }
+
+            playBtn.addEventListener('click', () => {
+                if (playing) {
+                    clearInterval(interval);
+                    playing = false;
+                    playBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+                } else {
+                    playing = true;
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                    interval = setInterval(step, 150);
+                }
+            });
+
+            stepBtn.addEventListener('click', step);
+
+            randomBtn.addEventListener('click', () => {
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        grid[r][c] = Math.random() < 0.3 ? 1 : 0;
+                    }
+                }
+                generation = 0;
+                renderGrid();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                if (playing) {
+                    clearInterval(interval);
+                    playing = false;
+                    playBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+                }
+                createGrid();
+            });
+
+            createGrid();
+        })();
+
+        
+        (function initGravity() {
+            const canvas = document.getElementById('gravityCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearBtn = document.getElementById('clearGravityBtn');
+            let balls = [];
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                const r = 8 + Math.random() * 18;
+                const hue = Math.random() * 360;
+                balls.push({
+                    x, y, r,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 2,
+                    color: `hsl(${hue}, 70%, 60%)`,
+                    gravity: 0.3,
+                    friction: 0.99,
+                    bounce: 0.7 + Math.random() * 0.2
+                });
+            });
+
+            clearBtn.addEventListener('click', () => { balls = []; });
+
+            function animate() {
+                const isDark = !document.documentElement.getAttribute('data-theme') || document.documentElement.getAttribute('data-theme') === 'dark';
+                ctx.fillStyle = isDark ? '#111111' : '#FAFAFA';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                balls.forEach(b => {
+                    b.vy += b.gravity;
+                    b.vx *= b.friction;
+                    b.vy *= b.friction;
+                    b.x += b.vx;
+                    b.y += b.vy;
+
+
+                    if (b.y + b.r > canvas.height) {
+                        b.y = canvas.height - b.r;
+                        b.vy *= -b.bounce;
+                        if (Math.abs(b.vy) < 0.5) b.vy = 0;
+                    }
+
+
+                    if (b.x - b.r < 0) { b.x = b.r; b.vx *= -b.bounce; }
+                    if (b.x + b.r > canvas.width) { b.x = canvas.width - b.r; b.vx *= -b.bounce; }
+
+
+                    if (b.y - b.r < 0) { b.y = b.r; b.vy *= -b.bounce; }
+
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                    ctx.fillStyle = b.color;
+                    ctx.fill();
+
+
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                    ctx.shadowColor = b.color;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+
+
+                if (balls.length > 100) balls.splice(0, balls.length - 100);
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+
+        
+        (function initSoundBars() {
+            const container = document.getElementById('soundBars');
+            const toggleBtn = document.getElementById('toggleSoundBars');
+            const barCount = 60;
+
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'sound-bar';
+                const maxH = 20 + Math.random() * 80;
+                const duration = 0.3 + Math.random() * 0.8;
+                const delay = Math.random() * 1;
+                bar.style.setProperty('--max-h', maxH + 'px');
+                bar.style.setProperty('--duration', duration + 's');
+                bar.style.setProperty('--delay', delay + 's');
+                bar.style.height = '8px';
+                container.appendChild(bar);
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                container.classList.toggle('paused');
+                if (container.classList.contains('paused')) {
+                    toggleBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+                } else {
+                    toggleBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                }
+            });
+        })();
+
+        
+        (function initProgressRings() {
+            const container = document.getElementById('progressRings');
+            const randomizeBtn = document.getElementById('randomizeRingsBtn');
+
+            const ringData = [
+                { label: 'HTML', color: '#e34c26' },
+                { label: 'CSS', color: '#264de4' },
+                { label: 'JavaScript', color: '#f0db4f' },
+                { label: 'React', color: '#61dafb' },
+                { label: 'Design', color: '#ff6b6b' }
+            ];
+
+            function createRings() {
+                container.innerHTML = '';
+                ringData.forEach(ring => {
+                    const value = 40 + Math.floor(Math.random() * 60);
+                    const radius = 40;
+                    const circumference = 2 * Math.PI * radius;
+                    const offset = circumference - (value / 100) * circumference;
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'progress-ring-wrapper';
+                    wrapper.innerHTML = `
+                        <svg class="progress-ring" width="100" height="100">
+                            <circle cx="50" cy="50" r="${radius}" stroke="var(--border)" stroke-width="6" fill="none" />
+                            <circle cx="50" cy="50" r="${radius}" stroke="${ring.color}" stroke-width="6" fill="none"
+                                stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}" stroke-linecap="round"
+                                style="transition: stroke-dashoffset 1.2s ease;" />
+                            <text x="50" y="55" text-anchor="middle" class="progress-ring-value" style="transform: rotate(90deg); transform-origin: 50% 50%;">${value}%</text>
+                        </svg>
+                        <span class="progress-ring-label">${ring.label}</span>
+                    `;
+                    container.appendChild(wrapper);
+
+
+                    setTimeout(() => {
+                        wrapper.querySelector('circle:nth-child(2)').style.strokeDashoffset = offset;
+                    }, 200);
+                });
+            }
+
+            randomizeBtn.addEventListener('click', createRings);
+            createRings();
+        })();
+
+        
+        (function initCounters() {
+            const counters = document.querySelectorAll('.counter-value');
+            let animated = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animated) {
+                        animated = true;
+                        counters.forEach(counter => {
+                            const target = parseInt(counter.dataset.target);
+                            let current = 0;
+                            const duration = 2000;
+                            const step = target / (duration / 16);
+                            const interval = setInterval(() => {
+                                current += step;
+                                if (current >= target) {
+                                    current = target;
+                                    clearInterval(interval);
+                                }
+                                counter.textContent = Math.floor(current).toLocaleString();
+                            }, 16);
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            const grid = document.getElementById('counterGrid');
+            if (grid) observer.observe(grid);
+        })();
+
+        
+        (function initFacts() {
+            const facts = [
+                { text: "An octopus has three hearts, nine brains, and blue blood.", icon: "🐙", cat: "NATURE" },
+                { text: "Honey never spoils. Archaeologists found 3000-year-old honey in Egyptian tombs that was still edible.", icon: "🍯", cat: "FOOD" },
+                { text: "A day on Venus is longer than a year on Venus.", icon: "🪐", cat: "SPACE" },
+                { text: "The first computer bug was an actual bug — a moth found in a Harvard Mark II computer in 1947.", icon: "🦗", cat: "TECH" },
+                { text: "Bananas are berries, but strawberries aren't.", icon: "🍌", cat: "FOOD" },
+                { text: "There are more possible iterations of a game of chess than there are atoms in the observable universe.", icon: "♟️", cat: "MATH" },
+                { text: "The shortest war in history was between Britain and Zanzibar on August 27, 1896. Zanzibar surrendered after 38 minutes.", icon: "⚔️", cat: "HISTORY" },
+                { text: "Wombat poop is cube-shaped. They produce around 80 to 100 cubes of poop per night.", icon: "🐨", cat: "NATURE" },
+                { text: "The inventor of the Pringles can is buried in one.", icon: "🥔", cat: "RANDOM" },
+                { text: "A group of flamingos is called a 'flamboyance'.", icon: "🦩", cat: "NATURE" },
+                { text: "The first 1GB hard drive, introduced in 1980, weighed about 550 pounds and cost $40,000.", icon: "💾", cat: "TECH" },
+                { text: "There's a species of jellyfish that is technically immortal. It can revert back to its juvenile form.", icon: "🪼", cat: "NATURE" },
+                { text: "The letter 'E' appears in 11% of all English words.", icon: "🔤", cat: "LANGUAGE" },
+                { text: "The world's oldest known living tree is over 5,000 years old.", icon: "🌳", cat: "NATURE" },
+                { text: "If you could fold a piece of paper 42 times, it would reach the Moon.", icon: "📄", cat: "MATH" },
+                { text: "Nintendo was founded in 1889 as a playing card company.", icon: "🎮", cat: "TECH" },
+                { text: "Scotland's national animal is the unicorn.", icon: "🦄", cat: "RANDOM" },
+                { text: "The average person walks about 100,000 miles in a lifetime — that's the equivalent of walking around the Earth four times.", icon: "🚶", cat: "HEALTH" },
+                { text: "There are more stars in the universe than grains of sand on all Earth's beaches.", icon: "⭐", cat: "SPACE" },
+                { text: "Cleopatra lived closer in time to the Moon landing than to the construction of the Great Pyramid.", icon: "🏛️", cat: "HISTORY" }
+            ];
+
+            let lastIdx = -1;
+            const textEl = document.getElementById('factText');
+            const iconEl = document.getElementById('factIcon');
+            const catEl = document.getElementById('factCategory');
+            const btn = document.getElementById('newFactBtn');
+
+            function show() {
+                let idx;
+                do { idx = Math.floor(Math.random() * facts.length); } while (idx === lastIdx);
+                lastIdx = idx;
+                textEl.textContent = facts[idx].text;
+                iconEl.textContent = facts[idx].icon;
+                catEl.textContent = facts[idx].cat;
+            }
+
+            btn.addEventListener('click', show);
+        })();
+
+    });
+    </script>
+</body>
+</html>
